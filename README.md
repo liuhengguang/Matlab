@@ -1,6 +1,16 @@
 # Matlab
-Matlab Code
-the file functions: have all functions which is use in the the main code
 
-main_algo_denoising_1.m coresponds to the first algorithm for denoising a PPG signal and obtaining a heart rate by using a Butterworth and Chebyshev filter.
+## File
+- *functions*: contains all functions which is use in the the main code
+- *signals*: contains the signal which are studied
+
+## Matlab Code
+- *main_algo_peack_detection.m1*: First algorithm for obtaining a heart-rate on a clean signal
+- *main_algo_peack_detection.m2*: Second Algorithm for obtaining a heart-rate on a clean signal
+
+### Algorithm for denoising a PPG signal and obtaining a heart rate
+- *main_algo_denoising_1.m*: Algorithm using a Butterworth and Chebyshev filter
+- *main_algo_denoising_2.m*: Algorithm using a kalman filter
+- *main_algo_denoising_3.m*: Algorithm using wavelet decomposition
+- *main_algo_denoising_4.m*: Algorithm using the three denoising methods
 
