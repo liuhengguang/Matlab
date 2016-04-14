@@ -33,9 +33,15 @@ for p = 1:length(time_10S)-1
     ind_R_inter = ind_R_inter(ind_R_inter~=0);
     
     ind_R_inter = ind_R_inter+time(time_10S(p));
+<<<<<<< HEAD
     ind_R = horzcat(ind_R,ind_R_inter');
     R = horzcat(R,R_inter');
 
+=======
+    
+    ind_R = [ind_R ;ind_R_inter];
+    R = [R; R_inter];
+>>>>>>> origin/master
 end
 
 if type ~= 0

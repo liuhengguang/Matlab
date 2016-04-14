@@ -47,7 +47,11 @@ for t = 1:length(time_min)-1
     
     signal_inter = conv(x,M(end,:));
     signal_inter = signal_inter(Order:end);
+<<<<<<< HEAD
     signal_noisefree = horzcat(signal_noisefree,signal_inter');
+=======
+    signal_noisefree = [signal_noisefree signal_inter];
+>>>>>>> origin/master
 end
 
 %% smoothing of the signal
@@ -73,15 +77,21 @@ signal_filter = filter(b,a,signal_filt);
 figure,
 subplot(211)
 plot(time/60,signal-mean(signal))
+<<<<<<< HEAD
 axis('tight')
 xlabel('time in min')
 ylabel('signal')
 title('normalized signal')
+=======
+>>>>>>> origin/master
 subplot(212)
 plot(time(1:length(signal_filter))/60,signal_filter)
 hold on
 plot(ind_R/60, R,'x','linewidth',2),
+<<<<<<< HEAD
 axis('tight')
+=======
+>>>>>>> origin/master
 legend('kalman','Peack')
 xlabel('time in min')
 ylabel('signal')

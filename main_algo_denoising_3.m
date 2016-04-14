@@ -31,13 +31,20 @@ ylabel('signal')
 legend('signal','signal noise')
 %% Wavelet Decomposition
 % using the matlab function wden
+<<<<<<< HEAD
 
+=======
+lev = 5;
+>>>>>>> origin/master
 
 figure,
 subplot(411), plot(time,signal), axis([0 120 800 2600]); 
 title('Original signal'); 
  
+<<<<<<< HEAD
 lev = wmaxlev(signal_noise,'db5');
+=======
+>>>>>>> origin/master
 % decomposition. 
 [c,l] = wavedec(signal_noise,lev,'db5');
  
@@ -49,15 +56,23 @@ subplot(412), plot(time,xd1), axis([0 120 800 2600]);
 title('De-noised signal - by decomposition c,l');
 
 % 'mln' for rescaling done using level-dependent estimation of level noise
+<<<<<<< HEAD
 lev = wmaxlev(signal_noise,'sym8');
+=======
+>>>>>>> origin/master
 xd2 = wden(signal_noise,'modwtsqtwolog','s','mln',lev,'sym8');
 
 subplot(413), plot(time,xd2), axis([0 120 800 2600]);
 title('level-dependent estimation of level noise');
 
+<<<<<<< HEAD
 lev = wmaxlev(signal_noise,'db3');
 [thr,sorh,keepapp] = ddencmp('den','wv',signal_noise);
 xd3 = wdencmp('gbl',signal_noise,'db3',lev,thr,sorh,keepapp);
+=======
+[thr,sorh,keepapp] = ddencmp('den','wv',signal_noise);
+xd3 = wdencmp('gbl',signal_noise,'db3',4,thr,sorh,keepapp);
+>>>>>>> origin/master
 subplot(414), plot(time,xd3), axis('tight');
 title('using wdencmp');
 %% Derivating the signal
