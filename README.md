@@ -1,6 +1,10 @@
 # Matlab
-Matlab Code
-the file functions: have all functions which is use in the the main code
 
-main_algo_denoising_1.m coresponds to the first algorithm for denoising a PPG signal and obtaining a heart rate by using a Butterworth and Chebyshev filter.
+## File
+- *functions*: contains all functions which is use in the the main code
+- *signals*: contains the signal which are studied
+- *test*: contains the different test files
+
+## Matlab Code
+- *Main.mat*: this main calculate the heart rate and the respiration rate of a ppg signal
 
