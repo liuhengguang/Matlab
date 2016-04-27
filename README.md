@@ -2,7 +2,6 @@
 
 ## File
 - *functions*: contains all functions which is use in the the main code
-- *signals*: contains the signal which are studied
 - *test*: contains the different test files
 
 ## Matlab Code
