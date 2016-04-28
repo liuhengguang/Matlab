@@ -9,9 +9,9 @@ addpath(genpath('../signals'));
 %% Signal and data definitions
 
 signal = load('PPG_A13.mat');
-signal = signal.perfect_ppg(1:end/2);
+signal = signal.PPG_A13(1:end/2);
 time = load('Timestamp.mat');
-time = time.time_perfect_ppg(1:end/2);
+time = time.Timestamp(1:end/2);
 time = (time-time(1))*10^(-3);
 Fs = 128; % sampling frequency
 

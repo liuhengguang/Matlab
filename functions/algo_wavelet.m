@@ -1,23 +1,10 @@
-<<<<<<< HEAD
 function [ind_R1, pulse_T1, pulse1, ind_R2, pulse_T2, pulse2, ...
 ind_R3, pulse_T3, pulse3 ] = algo_wavelet( signal, Fs, Tpulse )
-=======
-<<<<<<< HEAD
-function [ind_R1, pulse_T1, pulse1, ind_R2, pulse_T2, pulse2, ...
-ind_R3, pulse_T3, pulse3 ] = algo_wavelet( signal, Fs, Tpulse )
-=======
-function [ind_R1, pulse_T1, pulse1, ind_R2, pulse_T2, pulse2, ind_R3, pulse_T3, pulse3 ] = algo_wavelet( signal, Fs, Tpulse )
->>>>>>> origin/master
->>>>>>> origin/master
 % This function calculate the heart rate by using a wavelet decomposition
 % signal: signal which is studied
 % Fs: sampling Frequency 
 % Tpulse: step of the pulse is calculated
 % ind_R1: index of the first wavelet decomposition peacks
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> origin/master
 % pulse_T1: number of the first wavelet decomposition peacks by a Tpulse
 % pulse1: heart rate whith first wavelet decomposition filter
 % ind_R2: index of the second wavelet decomposition peacks
@@ -26,23 +13,11 @@ function [ind_R1, pulse_T1, pulse1, ind_R2, pulse_T2, pulse2, ind_R3, pulse_T3, 
 % ind_R3: index of the third wavelet decomposition peacks
 % pulse_T3: number of the third wavelet decomposition peacks by a Tpulse
 % pulse3: heart rate whith the third decomposition filter
-<<<<<<< HEAD
-=======
-=======
-% pulse_min1: number of the first wavelet decomposition peacks by a Tpulse
-% pulse1: heart rate whith first wavelet decomposition filter
-% ind_R2: index of the second wavelet decomposition peacks
-% pulse_min2: number of the second wavelet decomposition peacks by a Tpulse
-% pulse2: heart rate whith first second decomposition filter
-
->>>>>>> origin/master
->>>>>>> origin/master
 %% Data definition
 time = (0:length(signal)-1)/Fs;
 
 %% Wavelet Decomposition
 % using the matlab function wden
-<<<<<<< HEAD
 lev = wmaxlev(signal,'db5');
 % decomposition. 
 [c,l] = wavedec(signal,real(lev),'db5');
@@ -53,40 +28,11 @@ xd1 = wden(c,l,'sqtwolog','s','sln',real(lev),'db5');
 % 'mln' for rescaling done using level-dependent estimation of level noise
 lev = wmaxlev(signal,'sym8');
 xd2 = wden(signal,'modwtsqtwolog','s','mln',real(lev),'sym8');
-=======
-<<<<<<< HEAD
-lev = wmaxlev(signal,'db5');
-=======
-lev = 5;
- 
->>>>>>> origin/master
-% decomposition. 
-[c,l] = wavedec(signal,lev,'db5');
- 
-% threshold the decomposition structure [c,l].
-xd1 = wden(c,l,'sqtwolog','s','sln',lev,'db5');
-
-% 'mln' for rescaling done using level-dependent estimation of level noise
-<<<<<<< HEAD
-lev = wmaxlev(signal,'sym8');
-xd2 = wden(signal,'modwtsqtwolog','s','mln',lev,'sym8');
->>>>>>> origin/master
 
 % using den and wdencmp
 lev = wmaxlev(signal,'db5');
 [thr,sorh,keepapp] = ddencmp('den','wv',signal);
-<<<<<<< HEAD
 xd3 = wdencmp('gbl',signal,'db5',real(lev),thr,sorh,keepapp);
-=======
-xd3 = wdencmp('gbl',signal,'db5',lev,thr,sorh,keepapp);
-=======
-xd2 = wden(signal,'modwtsqtwolog','s','mln',lev,'sym8');
-
-% using den and wdencmp
-[thr,sorh,keepapp] = ddencmp('den','wv',signal_noise);
-xd3 = wdencmp('gbl',signal_noise,'db3',4,thr,sorh,keepapp);
->>>>>>> origin/master
->>>>>>> origin/master
 %% Derivating the signal
 
 windowSize = 15;
@@ -118,15 +64,7 @@ signal_filter3 = filter(b2,a2,signal_filt3);
 [ pulse_T2 ] = pulse_ppg( length(signal), Tpulse ,ind_R2, Fs);
 [ pulse_T3 ] = pulse_ppg( length(signal), Tpulse ,ind_R3, Fs);
 
-<<<<<<< HEAD
 [ pulse1] = heart_rate(ind_R1);
-=======
-<<<<<<< HEAD
-[ pulse1] = heart_rate(ind_R1);
-=======
-[ pulse1 ] = heart_rate(ind_R1);
->>>>>>> origin/master
->>>>>>> origin/master
 [ pulse2] = heart_rate(ind_R2);
 [ pulse3] = heart_rate(ind_R3);
 
@@ -140,15 +78,7 @@ plot(ind_R2/60, R2,'x','linewidth',2),
 plot(time/60,signal_filter3)
 plot(ind_R3/60, R3,'x','linewidth',2),
 axis('tight'),
-<<<<<<< HEAD
 legend('signal norm','signal filter1', 'Peack1','signal filter2','Peack2','signal filter3','Peack3')
-=======
-<<<<<<< HEAD
-legend('signal norm','signal filter1', 'Peack1','signal filter2','Peack2','signal filter3','Peack3')
-=======
-legend('signal norm','signal filter1', 'Peack1','signal filter2','Peack2','signal filter3','Peack3)
->>>>>>> origin/master
->>>>>>> origin/master
 xlabel('time in min')
 ylabel('signal')
 title('Peack detection of a PPG')

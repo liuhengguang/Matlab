@@ -8,7 +8,7 @@ function [ pulse ] = pulse_ppg( time_max, Ts, ind_R, Fs  )
 % pulse: pulse of the ppg signal
 
 time = 1:floor(Fs*Ts):time_max;
-
+time(end + 1) = time_max;
 pulse = zeros(1,length(time)-1);
 
 for k = 1:length(time)-1

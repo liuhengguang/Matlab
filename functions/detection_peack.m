@@ -1,12 +1,12 @@
-function [ R, ind_R ] = detection_peack( signal, Fs, time, type, thresholdmax, thresholdfilt)
+function [ R, ind_R ] = detection_peack( signal, Fs, type, thresholdmax, thresholdfilt)
 % This functions find the peack of a ppg signal by a step of 10 seconds
 % signal: signal which is studied
 % Fs: sampling frequency
-% time: vector corespond of time of the signal in second
 % type: size of filter if the signal was filter
 % thresholdmax: threshold if the signal was filter 
 % thresholdfilt: threshold for the peack detection
 
+time = (0:length(signal)-1)/Fs;
 if size(signal,1)==1
     signal = signal';
 end
@@ -18,7 +18,7 @@ threshold = signal>0;
 signal = signal.*threshold;
 
 time_10S = 1:floor(Fs*10):length(signal);
-
+time_10S(end+1)=length(signal);
 for p = 1:length(time_10S)-1
     x = signal(time_10S(p):time_10S(p+1));
     [R_inter, ind_R_inter] = findpeaks(x,Fs,'MinPeakDistance',60/200);
@@ -33,21 +33,9 @@ for p = 1:length(time_10S)-1
     ind_R_inter = ind_R_inter(ind_R_inter~=0);
     
     ind_R_inter = ind_R_inter+time(time_10S(p));
-<<<<<<< HEAD
     ind_R = horzcat(ind_R,ind_R_inter');
     R = horzcat(R,R_inter');
 
-=======
-<<<<<<< HEAD
-    ind_R = horzcat(ind_R,ind_R_inter');
-    R = horzcat(R,R_inter');
-
-=======
-    
-    ind_R = [ind_R ;ind_R_inter];
-    R = [R; R_inter];
->>>>>>> origin/master
->>>>>>> origin/master
 end
 
 if type ~= 0

@@ -31,32 +31,9 @@ pwelch(signal_filt2,[],[],[],Fs)
 
 %% Pulse Detection
 [ pulse_T1 ] = pulse_ppg( length(signal), Tpulse, ind_R1, Fs);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> origin/master
 [ pulse_T2 ] = pulse_ppg( length(signal), Tpulse, ind_R2, Fs);
 [ pulse1 ] = heart_rate(ind_R1);
 [ pulse2 ] = heart_rate(ind_R2);
-
-<<<<<<< HEAD
-=======
-=======
-[ pulse_min2 ] = pulse_ppg( length(signal), Tpulse, ind_R2, Fs);
-[ pulse1 ] = heart_rate(ind_R1);
-[ pulse2 ] = heart_rate(ind_R2);
-
-y_min_inter(1)=min(signal-mean(signal));
-y_min_inter(2)=min(signal_filt1);
-y_min_inter(3)=min(signal_filt2);
-y_min = min(y_min_inter);
-
-y_max_inter(1)=max(signal-mean(signal));
-y_max_inter(2)=max(signal_filt1);
-y_max_inter(3)=max(signal_filt2);
-y_max = max(y_max_inter);
->>>>>>> origin/master
->>>>>>> origin/master
 
 figure
 plot(time/60,signal-mean(signal))
@@ -65,15 +42,7 @@ plot(time/60, signal_filt1)
 plot(ind_R1/60,R1,'x','linewidth',2)
 plot(time/60, signal_filt2)
 plot(ind_R2/60,R2,'x','linewidth',2)
-<<<<<<< HEAD
 axis('tight')
-=======
-<<<<<<< HEAD
-axis('tight')
-=======
-axis([0 time(end)/60 y_min y_max])
->>>>>>> origin/master
->>>>>>> origin/master
 legend('signal','butter','Peack butter','cheby2','Peack cheby2')
 xlabel('time in min')
 ylabel('signal')

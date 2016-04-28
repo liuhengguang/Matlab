@@ -6,83 +6,86 @@ addpath(genpath('./functions'));
 addpath(genpath('./signals'));
 %% Signal and Data definitions
 
-sample = load('Pierre_BVP.csv');
-%signal = sample(:,2)';
-signal = sample(3:end)';
+load('Gauthier_25_04_Timestamp.mat')
+load('Gauthier_25_04_ACCEL.mat')
+load('Gauthier_25_04_PPG.mat')
 
-Fs = 64; % sampling frequency
-time = linspace(0,length(signal)/Fs, length(signal));
+Fs = 100.51; % sampling frequency
+TimeBegin = 15*60*60+24*60+14; % Begin time of the recording
 
-Tpulse = 6;
+Timestamp = Etienne_25_04_Timestamp;
+ACCEL = Etienne_25_04_ACCEL;
+PPG = Etienne_25_04_PPG;
+ 
+Timestamp = (Timestamp-Timestamp(1))*10^(-3)+TimeBegin;
 
+TsmoothHR =60;
+timeTsHR = 1:Fs*TsmoothHR:length(signal_filt);
+timeTsHR(end+1) = length(signal_filt);
+
+time_1min = 1:Fs*60:length(PPG);
+time_1min(end+1) = length(PPG);
+
+time_2min = 1:Fs*2*60:length(PPG);
+time_2min(end+1) = length(PPG);
 %% Wavelet Decomposition
-lev = wmaxlev(signal,'db5');
-[thr,sorh,keepapp] = ddencmp('den','wv',signal);
-xd3 = wdencmp('gbl',signal,'db5',real(lev),thr,sorh,keepapp);
-
-signal_wav = xd3;
-
+% lev = wmaxlev(signal,'db5');
+% [thr,sorh,keepapp] = ddencmp('den','wv',signal);
+% xd3 = wdencmp('gbl',signal,'db5',real(lev),thr,sorh,keepapp);
+% 
+% signal_wav = xd3;
+signal_wav = PPG;
 %% Band-pass filter
 Wn = 2*[0.5 3]/Fs;
 [b2,a2] = cheby2(3,30,Wn,'bandpass');
 signal_filt = filtfilt(b2,a2,signal_wav);
 
 figure,
-pwelch(signal,[],[],[],Fs)
+pwelch(PPG,[],[],[],Fs)
 figure,
 pwelch(signal_filt,[],[],[],Fs)
 
 %% Peak Detection
-[ R, ind_R ] = detection_peack( signal_filt, Fs, time, 0, 0, 0.2);
+[ R, ind_R ] = detection_peack( signal_filt, Fs, 0, 0, 0.2);
 
-figure, plot(time/60,signal_filt); 
+figure, plot(Timestamp/60/60,PPG); 
 hold all
-plot(ind_R/60,R,'x')
-grid on; axis('tight'), 
+plot(Timestamp/60/60,signal_filt);
+plot((ind_R+TimeBegin)/60/60,R,'x')
+grid on; axis('tight'),
+legend('signal','signal filter','peak')
+title('Peak Detection')
+xlabel('time in Hour')
+ylabel('Amplitude')
 %% Heart Rate 
-[ pulse ] = heart_rate(ind_R);
-p = 50;
-pulse1 = filter(ones(1,p)/p,1,pulse);
+[ pulse_smooth ] = heart_rate_smooth(ind_R, Fs, length(signal_filt), TsmoothHR);
 
-figure, plot(ind_R(p:end-1)/60/60,pulse1(p:end))
-grid on; axis('tight')
-xlabel('time (hour)')
-ylabel('Amplitude')
-title('Heart rate')
-T =20;
-[ pulse_smooth ] = heart_rate_smooth(ind_R, Fs, length(signal_filt), T);
-
-timeTsec = 1:Fs*T:length(signal_filt);
-
-figure, plot(timeTsec(1:end-1)/Fs/60/60,pulse_smooth)
-grid on; axis('tight')
-xlabel('time (hour)')
-ylabel('Amplitude')
-title('Heart rate smooth')
 %% Respiratory Rate
-[ respiratoryRate ] = respiratory_rate( signal, Fs );
+[ respiratoryRate ] = respiratory_rate2( PPG, Fs );
 
+%% Sleep Detection
+[ sleep, rest ] = sleep_detection( ACCEL, Fs );
 %% Results
-time_min = 1:Fs*60:length(signal);
 
 figure, 
 subplot(311)
-plot(timeTsec(1:end-1)/Fs/60/60,pulse_smooth)
+plot((timeTsHR(1:end-1)/Fs+TimeBegin)/60/60,pulse_smooth)
 grid on; axis('tight')
 xlabel('time (hour)')
 ylabel('Amplitude')
 title('Heart rate')
 subplot(312)
-plot(time_min(1:end-1)/Fs/60/60,respiratoryRate)
+plot((time_1min(1:end-1)/Fs+TimeBegin)/60/60,respiratoryRate)
 grid on
 axis('tight')
 xlabel('time (hour)')
 ylabel('Amplitude')
 title('Respiratory Rate')
 subplot(313)
-plot(time/60/60,signal)
+plot((time_2min(1:end-1)/Fs+TimeBegin)/60/60,sleep)
 axis('tight')
+ylim([-0.3 1.3])
 xlabel('time (hour)')
 ylabel('Amplitude')
-title('signal')
+title('Sleep Detection')
 

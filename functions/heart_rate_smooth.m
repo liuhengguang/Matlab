@@ -7,14 +7,14 @@ function [ pulse_smooth ] = heart_rate_smooth(ind_R, Fs, N, T)
 % T: time interval for smoothing
 % pulse: heart_rate
 
-timeTsec = 1:Fs*T:N;
-timeTsec(end)= N;
+timeTsec = 1:floor(Fs*T):N;
+timeTsec(end+1)= N;
 pulse = 60*(diff(ind_R)).^(-1);
 
 for p = 1:2
     for k=2:length(pulse)-1
-        if pulse(k)>pulse(k+1)*1.3
-            if pulse(k)>pulse(k-1)*1.3
+        if pulse(k)>pulse(k+1)*1.2
+            if pulse(k)>pulse(k-1)*1.2
                 pulse(k) = (pulse(k+1)+pulse(k-1))/2;
             end
         end
@@ -31,7 +31,5 @@ for k = 1:length(timeTsec)-1
     pulse_smooth(k) = mean(buffer);
 end
 
-% p = 50;
-% pulse_smooth = filtfilt(ones(1,p)/p,1,pulse_smooth);
 end
 

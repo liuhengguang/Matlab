@@ -12,54 +12,35 @@ signal = Gauthier_25_04_PPG';
 Fs = floor(100.51); % sampling frequency
 time = (0:length(signal)-1)/Fs;
 
+
 figure, plot(time/60,signal)
 axis('tight')
 xlabel('time (min)')
 ylabel('Amplitude')
 title('signal')
 
-%% Bandpass Filter
+%% Envelope of the signal detection
+[yupper1,ylower1] = envelope(signal,floor(Fs),'peak');
 
-Wn = 2*[0.1 0.3]/Fs;
-[b1,a1] = butter(3,Wn,'bandpass');
-P = 100;
-b2 = 1/P*ones(1,P);
-a2 = 1;
-
-signal_filt1 = filter(b1,a1,signal);
-signal_filt2 = filter(b2,a2,signal_filt1);
-
-figure, plot(time/60,signal_filt1)
-hold on
-plot(time/60,signal_filt2)
-grid on
-legend('1','2')
+figure, plot(time/60,signal)
+hold on 
+plot(time/60,yupper1)
+plot(time/60,ylower1)
+legend('signal','yupper','ylower')
 axis('tight')
 xlabel('time (min)')
 ylabel('Amplitude')
-title('signal filter')
+title('signal')
 
-%% Peaks detection 
-time_20sec = 1:Fs*20:length(signal);
-R = [];
-I = [];
-
-for k = 1:length(time_20sec)-1
-    x = signal_filt2(time_20sec(k):time_20sec(k+1));
-    [Rinter, Iinter]=findpeaks(x,Fs,'MinPeakDistance',2,'MinPeakHeight',1.5*mean(x));
-    Iinter = Iinter+time(time_20sec(k));
-    I = [I Iinter];
-    R = [R Rinter];
-end
-
-figure, plot(time/60,signal_filt2)
-hold all
-plot(I/60,R,'gx','LineWidth',2)
-grid on
+figure,
+plot(time/60,yupper1)
 axis('tight')
 xlabel('time (min)')
 ylabel('Amplitude')
-title('signal filter')
+title('Enveloppe')
+
+%% Peaks detection
+[R, I]=findpeaks(yupper1,Fs,'MinPeakDistance',1);
 
 time_min = 1:Fs*60:length(signal);
 respiratory_rate = zeros(1,length(time_min)-1);
@@ -79,5 +60,3 @@ axis('tight')
 xlabel('time (min)')
 ylabel('Amplitude')
 title('Respiratory Rate')
-
-

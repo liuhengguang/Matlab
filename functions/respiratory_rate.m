@@ -8,9 +8,10 @@ Wn = 2*[0.1 0.4]/Fs;
 [b1,a1] = butter(3,Wn,'bandpass');
 
 signal_filt = filter(b1,a1,signal);
+
 time = (0:length(signal)-1)/Fs;
-%% 
-time_20sec = 1:Fs*20:length(signal);
+time_20sec = 1:floor(Fs*20):length(signal);
+time_20sec(end+1) = length(signal);
 R = [];
 I = [];
 
@@ -22,6 +23,7 @@ for k = 1:length(time_20sec)-1
 end
 
 time_min = 1:Fs*60:length(signal);
+time_min(end+1) = length(signal);
 respiratoryRate = zeros(1,length(time_min)-1);
 
 for k =1:length(time_min)-1
