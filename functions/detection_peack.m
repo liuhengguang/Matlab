@@ -1,12 +1,12 @@
-function [ R, ind_R ] = detection_peack( signal, Fs, type, thresholdmax, thresholdfilt)
+function [ R, ind_R ] = detection_peack( signal, Fs, time, type, thresholdmax, thresholdfilt)
 % This functions find the peack of a ppg signal by a step of 10 seconds
 % signal: signal which is studied
 % Fs: sampling frequency
+% Time: Timestamp of the signal
 % type: size of filter if the signal was filter
 % thresholdmax: threshold if the signal was filter 
 % thresholdfilt: threshold for the peack detection
 
-time = (0:length(signal)-1)/Fs;
 if size(signal,1)==1
     signal = signal';
 end

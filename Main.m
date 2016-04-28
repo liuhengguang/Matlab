@@ -11,17 +11,18 @@ load('Gauthier_25_04_ACCEL.mat')
 load('Gauthier_25_04_PPG.mat')
 
 Fs = 100.51; % sampling frequency
-TimeBegin = 15*60*60+24*60+14; % Begin time of the recording
+TimeBegin = 12*60*60+40*60+59; % Begin time of the recording
 
-Timestamp = Etienne_25_04_Timestamp;
-ACCEL = Etienne_25_04_ACCEL;
-PPG = Etienne_25_04_PPG;
- 
+Timestamp = Gauthier_25_04_Timestamp;
+ACCEL = Gauthier_25_04_ACCEL;
+PPG = Gauthier_25_04_PPG;
+
+%%
 Timestamp = (Timestamp-Timestamp(1))*10^(-3)+TimeBegin;
 
 TsmoothHR =60;
-timeTsHR = 1:Fs*TsmoothHR:length(signal_filt);
-timeTsHR(end+1) = length(signal_filt);
+timeTsHR = 1:Fs*TsmoothHR:length(PPG);
+timeTsHR(end+1) = length(PPG);
 
 time_1min = 1:Fs*60:length(PPG);
 time_1min(end+1) = length(PPG);
@@ -46,12 +47,12 @@ figure,
 pwelch(signal_filt,[],[],[],Fs)
 
 %% Peak Detection
-[ R, ind_R ] = detection_peack( signal_filt, Fs, 0, 0, 0.2);
+[ R, ind_R ] = detection_peack( signal_filt, Fs,Timestamp-TimeBegin , 0, 0, 0.2);
 
-figure, plot(Timestamp/60/60,PPG); 
+figure, plot(Timestamp/60/60,PPG-mean(PPG)); 
 hold all
 plot(Timestamp/60/60,signal_filt);
-plot((ind_R+TimeBegin)/60/60,R,'x')
+plot((ind_R+TimeBegin)/60/60,R,'x','linewidth',2)
 grid on; axis('tight'),
 legend('signal','signal filter','peak')
 title('Peak Detection')
