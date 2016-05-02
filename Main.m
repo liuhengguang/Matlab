@@ -92,16 +92,25 @@ for k=2:2:length(index)-1
     time_2min = [time_2min time_2min_inter];
 end
 %% Results
+T = Timestamp(index)/60/60;
 
 figure,
 subplot(311)
 plot(timeTsHR/60/60,pulse_smooth)
+hold on
+for k=1:length(index)
+plot([T(k) T(k)],[min(pulse_smooth) max(pulse_smooth)],'-g','linewidth',2) 
+end
 grid on; axis('tight')
 xlabel('time (hour)')
 ylabel('Amplitude')
 title('Heart rate')
 subplot(312)
 plot(time_1min/60/60,respiratoryRate)
+hold on
+for k=1:length(index)
+plot([T(k) T(k)],[min(respiratoryRate) max(respiratoryRate)],'-g','linewidth',2) 
+end 
 grid on
 axis('tight')
 xlabel('time (hour)')
@@ -109,8 +118,13 @@ ylabel('Amplitude')
 title('Respiratory Rate')
 subplot(313)
 plot(time_2min/60/60,sleep)
+hold on
+for k=1:length(index)
+plot([T(k) T(k)],[min(sleep) max(sleep)],'-g','linewidth',2) 
+end
 axis('tight')
 ylim([-0.3 1.3])
 xlabel('time (hour)')
 ylabel('Amplitude')
 title('Sleep Detection')
+
