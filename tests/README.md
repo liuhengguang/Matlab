@@ -16,4 +16,4 @@
 - *test_accel.m*: Algorithm for making a cooreletion between PPG and accelerometre
 - *test_accel2.m*: Second Algorithm for making a cooreletion between PPG and accelerometre
 - *test_sleeping.m*: Algorithm for finding the the respiratory rate
-
+- *test_unworkable_signals.m*: Algorithm for finding when the bracelet has not being worn

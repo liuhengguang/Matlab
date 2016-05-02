@@ -15,3 +15,4 @@ This directory contains all functions which are use in the main code.
 - *respiratory_rate*: This function gives the respiratory rate of person
 - *respiratory_rate2*: This function gives the respiratory rate of person
 - *sleep_detection*: This function finds the sleep time of a personn
+- *unworkable_index*: Find the index of the PPG when the bracelel has not being worn
